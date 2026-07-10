@@ -8,28 +8,26 @@
     <style>
         body {
             margin: 0;
-            background: #ffffff; /* Sets the entire page background to pure white */
+            background: #ffffff; /* Sets the entire web page background to pure white */
             font-family: Arial, sans-serif;
         }
         .container {
-            width: 95%;
-            max-width: 850px;
-            margin: 20px auto;
-        }
-        iframe {
             width: 100%;
-            height: 75vh; 
-            border: none; /* Removes any harsh black borders */
+            max-width: 600px; /* Aligns perfectly with a standard mobile receipt width */
+            margin: 0 auto;
             background: #ffffff;
-            border-radius: 8px;
-            /* Uses a very soft, light shadow to blend perfectly with the white background */
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); 
+            padding: 0;
+        }
+        .receipt-img {
+            width: 100%;
+            height: auto;
+            display: block; /* Removes any unwanted bottom spacing gaps */
         }
         .download {
             display: block;
             width: 180px;
-            /* 60px top margin pushes the button down to match your screenshot spacing */
-            margin: 60px auto 30px auto; 
+            /* 100px top margin perfectly creates the large distance down to the button */
+            margin: 100px auto 40px auto; 
             text-align: center;
             background: #7a1b87;
             color: #fff;
@@ -46,9 +44,9 @@
 <body>
 
 <div class="container">
-    <iframe src="https://docs.google.com/gview?url=https://mbreciept.github.io/mbreciept.cbe.com.et-v2-hfHCxzJu1QG9aA1QnkhP/Receipt.pdf&embedded=true"></iframe>
+    <img src="Receipt.png" alt="Customer Receipt" class="receipt-img">
 
-    <a class="download" href="Receipt.pdf" download="Receipt.pdf">Download PDF</a>
+    <a class="download" href="Receipt.pdf" download="Receipt.pdf">Download</a>
 </div>
 
 </body>
