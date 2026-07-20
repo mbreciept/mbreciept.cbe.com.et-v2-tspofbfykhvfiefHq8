@@ -1,53 +1,306 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt Viewer</title>
-
+    <title>Customer Receipt</title>
     <style>
-        body {
-            margin: 0;
-            background: #ffffff; /* Sets the entire web page background to pure white */
-            font-family: Arial, sans-serif;
+        body { 
+            font-family: Arial, Helvetica, sans-serif; 
+            background: #f0f2f5; 
+            margin: 0; 
+            padding: 20px; 
+            color: #222;
         }
-        .container {
-            width: 100%;
-            max-width: 600px; /* Aligns perfectly with a standard mobile receipt width */
+        .page-container {
+            width: 580px;
             margin: 0 auto;
-            background: #ffffff;
-            padding: 0;
         }
-        .receipt-img {
-            width: 100%;
-            height: auto;
-            display: block; /* Removes any unwanted bottom spacing gaps */
+        .receipt { 
+            width: 100%; 
+            background: #ffffff; 
+            border: 1px solid #dcdcdc; 
+            box-sizing: border-box;
         }
-        .download {
-            display: block;
-            width: 180px;
-            /* 100px top margin perfectly creates the large distance down to the button */
-            margin: 100px auto 40px auto; 
+        
+        /* Header */
+        header { 
+            background-color: #7b1e7a; 
+            color: white; 
+            padding: 12px 16px; 
+            position: relative;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo { 
+            position: absolute;
+            left: 16px;
+            width: 30px; 
+            height: auto; 
+        }
+        .header-content {
             text-align: center;
-            background: #7a1b87;
-            color: #fff;
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 5px;
+            width: 100%;
+        }
+        header h2 { 
+            margin: 0; 
+            font-size: 14px; 
             font-weight: bold;
         }
-        .download:hover {
-            background: #64146f;
+        header p { 
+            margin: 2px 0 0 0; 
+            font-size: 10px; 
+        }
+
+        /* Top Info Grid - Clean with no horizontal lines */
+        .top-info { 
+            display: flex; 
+            justify-content: space-between;
+            padding: 16px 16px 12px 16px;
+            box-sizing: border-box;
+        }
+        .col { 
+            width: 48%; 
+        }
+        h3 { 
+            font-size: 10.5px; 
+            font-weight: bold;
+            border-bottom: 1px solid #dcdcdc; 
+            padding-bottom: 5px; 
+            margin: 0 0 10px 0; 
+            color: #111; 
+        }
+        .row { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 7px;
+            font-size: 9.5px;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+        .row:last-child {
+            margin-bottom: 0;
+        }
+        .row span:first-child {
+            color: #333;
+        }
+        .row span:last-child {
+            font-weight: normal;
+            color: #111;
+            text-align: right;
+        }
+
+        /* Transaction Section */
+        .transaction-section {
+            padding: 4px 16px 16px 16px;
+        }
+        .transaction-box { 
+            border: 1px solid #dcdcdc; 
+            padding: 12px 14px; 
+            position: relative; 
+            box-sizing: border-box;
+            background: #fff;
+        }
+        .transaction-box h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #dcdcdc; 
+            padding-bottom: 6px;
+            text-align: left;
+        }
+        .watermark-stamp { 
+            position: absolute; 
+            top: 55%; 
+            left: 50%; 
+            transform: translate(-50%, -50%) rotate(-12deg); 
+            width: 155px; 
+            opacity: 0.85; 
+            pointer-events: none; 
+            border: none !important; /* Removed border from stamp image */
+            outline: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            z-index: 2;
+        }
+        .trans-row { 
+            display: flex; 
+            justify-content: space-between; 
+            padding-bottom: 7px;
+            margin-bottom: 7px;
+            border-bottom: 1px solid #f0f0f0; 
+            font-size: 9.5px;
+            position: relative;
+            z-index: 3;
+        }
+        .trans-row span:last-child {
+            font-weight: normal;
+            text-align: right;
+        }
+        .bold-total { 
+            font-weight: bold; 
+            border-top: 1px solid #dcdcdc; 
+            border-bottom: none !important;
+            padding-top: 10px; 
+            padding-bottom: 0 !important;
+            margin-top: 10px; 
+            margin-bottom: 0 !important;
+        }
+
+        /* Footer Box (Amount & QR) - Reduced height/padding */
+        .footer-box-container {
+            padding: 0 16px 16px 16px;
+        }
+        .footer-box { 
+            border: 1px solid #dcdcdc; 
+            background: #f2f4f7; 
+            padding: 4px 10px; /* Reduced vertical padding to make the box thinner */
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-sizing: border-box;
+            position: relative;
+            min-height: 34px; /* Reduced minimum height */
+        }
+        .amount-word { 
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 9px;
+            line-height: 1.3;
+        }
+        .amount-word strong {
+            font-size: 9px;
+            color: #111;
+            font-weight: bold;
+        }
+        .qr-wrapper {
+            margin-left: auto;
+        }
+        .qr { 
+            width: 36px; /* Reduced QR size to match the compact box */
+            height: 36px;
+            display: block;
+        }
+
+        /* Bottom Brand Footer */
+        .receipt-footer { 
+            text-align: center; 
+            font-size: 9px; 
+            color: #7b1e7a; 
+            padding-bottom: 14px;
+        }
+        .receipt-footer p {
+            margin: 2px 0;
+        }
+        .receipt-footer p:first-child {
+            font-weight: bold;
+        }
+        .receipt-footer p:last-child {
+            color: #555;
+            font-size: 8.5px;
+        }
+
+        /* Download PDF Button with maximum push distance away from the receipt box */
+        .btn-container {
+            margin: 220px 0 80px 0; 
+            text-align: center;
+        }
+        .download-btn {
+            background-color: #7b1e7a;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
+    <div class="page-container">
+        <div class="receipt">
+            <header>
+                <img src="logo.png" alt="CBE Logo" class="logo">
+                <div class="header-content">
+                    <h2>Commercial Bank of Ethiopia</h2>
+                    <p>Customer Receipt</p>
+                </div>
+            </header>
 
-<div class="container">
-    <img src="Receipt.png" alt="Customer Receipt" class="receipt-img">
+            <div class="top-info">
+                <div class="col">
+                    <h3>Company Address & Other Information</h3>
+                    <div class="row"><span>Country:</span> <span>Ethiopia</span></div>
+                    <div class="row"><span>City:</span> <span>Addis Ababa</span></div>
+                    <div class="row"><span>Address:</span> <span>Ras Desta Damtew St, 01, Kirkos</span></div>
+                    <div class="row"><span>Postal code:</span> <span>255</span></div>
+                    <div class="row"><span>SWIFT Code:</span> <span>CBETETAA</span></div>
+                    <div class="row"><span>Email:</span> <span>info@cbe.com.et</span></div>
+                    <div class="row"><span>Tel:</span> <span>+251-551-50-04</span></div>
+                    <div class="row"><span>Fax:</span> <span>+251-551-45-22</span></div>
+                    <div class="row"><span>Tin:</span> <span>0000006966</span></div>
+                    <div class="row"><span>VAT Receipt No:</span> <span>FT26201K0X3X</span></div>
+                    <div class="row"><span>VAT Registration No:</span> <span>011140</span></div>
+                    <div class="row"><span>VAT Registration Date:</span> <span>01/01/2003</span></div>
+                </div>
+                <div class="col">
+                    <h3>Customer Information</h3>
+                    <div class="row"><span>Customer Name:</span> <span>Mamush Matewos Galfato</span></div>
+                    <div class="row"><span>Region:</span> <span>-</span></div>
+                    <div class="row"><span>City:</span> <span>-</span></div>
+                    <div class="row"><span>Sub City:</span> <span>-</span></div>
+                    <div class="row"><span>Wereda/Kebele:</span> <span>-</span></div>
+                    <div class="row"><span>VAT Registration No:</span> <span>-</span></div>
+                    <div class="row"><span>VAT Registration Date:</span> <span>-</span></div>
+                    <div class="row"><span>TIN (TAX ID):</span> <span>-</span></div>
+                    <div class="row"><span>Branch:</span> <span>-</span></div>
+                </div>
+            </div>
 
-    <a class="download" href="CBE-Receipt-FT26198WTDG2.pdf" download="CBE-Receipt-FT26198WTDG2.pdf">Download</a>
-</div>
+            <div class="transaction-section">
+                <div class="transaction-box">
+                    <h3>Payment / Transaction Informations</h3>
+                    <img src="cbe.png" alt="Stamp" class="watermark-stamp">
+                    <div class="trans-row"><span>Payer:</span> <span>Mamush Matewos Galfato</span></div>
+                    <div class="trans-row"><span>Account:</span> <span>1****5105</span></div>
+                    <div class="trans-row"><span>Receiver:</span> <span>Air Time Sales-mobile Banking(safari</span></div>
+                    <div class="trans-row"><span>Account:</span> <span>E****0162</span></div>
+                    <div class="trans-row"><span>Payment Date & Time:</span> <span>Jul 18, 2026, 10:17 PM</span></div>
+                    <div class="trans-row"><span>Reference No. (VAT Invoice No):</span> <span>FT26201K0X3X</span></div>
+                    <div class="trans-row"><span>Reason / Type of service:</span> <span>Safari0722862322</span></div>
+                    <div class="trans-row"><span>Transferred Amount:</span> <span>50.00 ETB</span></div>
+                    <div class="trans-row"><span>Service Charge (incl. 15% VAT and 5% Disaster Recovery):</span> <span>0.00 ETB</span></div>
+                    <div class="trans-row bold-total"><span>Total amount debited from customer's account:</span> <span>50.00 ETB</span></div>
+                </div>
+            </div>
 
+            <div class="footer-box-container">
+                <div class="footer-box">
+                    <div class="amount-word">
+                        <strong>Amount in Word:</strong><br>
+                        <span>Fifty ETB</span>
+                    </div>
+                    <div class="qr-wrapper">
+                        <img src="download.png" alt="QR Code" class="qr">
+                    </div>
+                </div>
+            </div>
+
+            <div class="receipt-footer">
+                <p>The Bank you can always rely on.</p>
+                <p>&copy; 2026 Commercial Bank of Ethiopia. All rights reserved.</p>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button class="download-btn">Download</button>
+        </div>
+    </div>
 </body>
 </html>
+
+```
